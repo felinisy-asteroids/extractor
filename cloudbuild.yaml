@@ -1,0 +1,20 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args:
+      - 'gcloud'
+      - 'functions'
+      - 'deploy'
+      - 'asteroids-extract'
+      - '--gen2'
+      - '--runtime=python312'
+      - '--region=europe-west1'
+      - '--entry-point=main'
+      - '--source=.'
+      - '--trigger-topic=asteroid-workflow-topic'
+      - '--memory=256Mi'
+      - '--timeout=300s'
+      - '--set-secrets'
+      - 'NASA_KEY=projects/cloud-project-workflow/secrets/NASA_API_KEY/versions/latest'
