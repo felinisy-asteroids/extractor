@@ -3,6 +3,7 @@ import logging
 from extractor.extractor import Extractor
 from gcp_client.gcs_manager import GCSManager
 
+
 def main(request):
     raw_body = request.get_json()
     date_list = raw_body.get("dates",[])
@@ -15,21 +16,17 @@ def main(request):
     extractor = Extractor()
 
     all_data = extractor.extract_all(date_list)
+    gcs = GCSManager()
     if all_data:
-        gcs = GCSManager()
-        try:
-            gcs.upload_data(all_data)
-            return {"status": "success", "records": len(all_data)}, 200
-        except Exception as e:
-            return {"status": "error", "message": str(e)}, 500
+        gcs.upload_data(all_data)
 
-    return {"status": "no_data", "records": 0}, 200
-
+    return {"status": "success", "records": len(all_data), "bucket": gcs.get_bucket_name()}, 200
+#
 # if __name__ == "__main__":
 #     class MockRequest:
 #         def get_json(self):
 #             return {
-#                 "dates": ["2024-01-01", "2024-01-02"]
+#                 "dates": ["2025-01-01", "2025-01-02"]
 #             }
 #
 #     response, status = main(MockRequest())
