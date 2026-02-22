@@ -13,6 +13,9 @@ class GCSManager:
         self.client = storage.Client()
         self.bucket = self.client.bucket(settings.BUCKET_NAME)
 
+    def get_bucket_name(self):
+        return self.bucket.name
+
     def get_filename(self):
         return f"raw_data/{datetime.now().date()}.json"
 
@@ -25,7 +28,6 @@ class GCSManager:
                 content_type='application/json'
             )
             logger.info(f"Uploaded {len(all_data)} records to gs://{self.bucket.name}/{filename}")
-            return filename
         except Exception as e:
             logger.error(f"Failed to upload to GCS: {e}")
             raise
