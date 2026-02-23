@@ -2,9 +2,12 @@ import logging
 
 from extractor.extractor import Extractor
 from gcp_client.gcs_manager import GCSManager
+from utils.logger import logger
 
 
 def main(request):
+    logger.info(request)
+    logger.info(request.get_json())
     raw_body = request.get_json()
     date_list = raw_body.get("dates",[])
     logging.info(f"Dates: {date_list}")
