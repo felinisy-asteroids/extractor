@@ -7,7 +7,6 @@ from utils.settings import settings
 from utils.logger import logger
 
 
-
 class GCSManager:
     def __init__(self):
         self.client = storage.Client()
@@ -16,10 +15,10 @@ class GCSManager:
     def get_bucket_name(self):
         return self.bucket.name
 
-    def get_filename(self):
+    def get_filename(self) -> str:
         return f"raw_data/{datetime.now().date()}.json"
 
-    def upload_data(self, all_data):
+    def upload_data(self, all_data: list) -> None:
         filename = self.get_filename()
         try:
             blob = self.bucket.blob(filename)
@@ -31,5 +30,3 @@ class GCSManager:
         except Exception as e:
             logger.error(f"Failed to upload to GCS: {e}")
             raise
-
-
