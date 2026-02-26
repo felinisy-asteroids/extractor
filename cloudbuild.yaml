@@ -7,7 +7,7 @@ steps:
       - 'gcloud'
       - 'functions'
       - 'deploy'
-      - 'asteroids-extract'
+      - 'extractor'
       - '--gen2'
       - '--runtime=python312'
       - '--region=europe-west1'
